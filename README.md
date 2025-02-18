@@ -22,8 +22,8 @@ Ensure you have the following installed:
 
 ### Clone the Repository
 ```sh
-git clone <repository-url>
-cd telex-sentiment-modifier
+git clone https://github.com/telexintegrations/NLP-Sentiment-Analysis-Modifier-Integratio
+cd NLP-Sentiment-Analysis-Modifier-Integratio
 ```
 
 ### Install Dependencies
@@ -35,6 +35,7 @@ npm install
 Create a `.env` file in the project root and set the following:
 ```env
 PORT=3000
+OPENAI_API_KEY = "your-api-key"
 ```
 
 ### Running the Server
@@ -138,7 +139,7 @@ This project is licensed under the **MIT License**.
 ---
 
 ## ✉️ Contact
-For any inquiries or support, please reach out via [your email or GitHub].
+For any inquiries or support, please reach out via [tanzeglenn@gmail.com].
 
 Happy coding! 🎉
 
