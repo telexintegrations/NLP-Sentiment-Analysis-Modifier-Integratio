@@ -104,7 +104,7 @@ This project includes an automated test script to validate the API.
 
 ### Run Tests
 ```sh
-npx ts-node test.ts
+npm test
 ```
 This will send test payloads and verify API responses.
 
