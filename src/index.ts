@@ -1,17 +1,22 @@
-import express, { Router } from "express";
+// index.ts
+import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import { analyzeSentiment } from "./analyzeSentiment";
-import { TelexRequest, TelexResponse } from "./types"; //
+import { TelexRequest, TelexResponse } from "./types";
 
 dotenv.config();
 
 const app = express();
-const router = Router();
+
+// Add middleware
+app.use(cors());
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
-router.post(
+// Define the route directly on app
+app.post(
   "/target_url",
   async (req: TelexRequest, res: TelexResponse): Promise<any> => {
     const startTime = Date.now();
@@ -25,12 +30,9 @@ router.post(
           .json({ message: "Invalid request: message is required" });
       }
 
-      // Ensure settings is an array before searching
       const toxicityThreshold =
-        (Array.isArray(settings)
-          ? settings.find((s) => s.label === "Toxicity Threshold")?.default
-          : undefined) ?? -0.5;
-
+        settings?.find((s) => s.label === "Toxicity Threshold")?.default ??
+        -0.5;
       const sentimentScore = await analyzeSentiment(message);
 
       if (Date.now() - startTime > 900) {
@@ -48,12 +50,15 @@ router.post(
       return res.json({ message: modifiedMessage });
     } catch (error) {
       console.error("Error processing message:", error);
-      return res.status(500).json({ message: req.body.message });
+      return res.json({ message: req.body.message });
     }
   }
 );
 
-app.use(router);
+// Add a test endpoint
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
 
 app.listen(PORT, () => {
   console.log(

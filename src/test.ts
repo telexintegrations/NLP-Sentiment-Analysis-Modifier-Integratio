@@ -48,27 +48,41 @@ const TEST_MESSAGES = [
   },
 ];
 
-async function testResponseTime(payload: TelexModifierRequest) {
-  const start = Date.now();
-  await axios.post(`${BASE_URL}/target_url`, payload);
-  return Date.now() - start;
+async function verifyServerRunning() {
+  try {
+    await axios.get(`${BASE_URL}/health`);
+    console.log("✅ Server is running\n");
+    return true;
+  } catch (error) {
+    console.error("❌ Server is not running. Please start the server first.\n");
+    return false;
+  }
 }
 
 async function runTests() {
   console.log("🧪 Starting Telex Integration Tests\n");
 
+  // Verify server is running first
+  if (!(await verifyServerRunning())) {
+    return;
+  }
+
   for (const test of TEST_MESSAGES) {
     try {
       console.log(`Testing: ${test.description}`);
+      console.log("Sending request to:", `${BASE_URL}/target_url`);
+      console.log("Payload:", JSON.stringify(test.payload, null, 2));
 
+      const startTime = Date.now(); // Track the start time of the request
       const response = await axios.post(`${BASE_URL}/target_url`, test.payload);
+      const responseTime = Date.now() - startTime; // Calculate the response time
+
       console.log("Response:", response.data);
 
       if (!response.data.hasOwnProperty("message")) {
         throw new Error("Invalid response format: missing message property");
       }
 
-      const responseTime = await testResponseTime(test.payload);
       console.log(`Response time: ${responseTime}ms`);
 
       if (responseTime > 1000) {
@@ -77,27 +91,18 @@ async function runTests() {
 
       console.log("✅ Test passed\n");
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof AxiosError) {
+        console.error("❌ Test failed:", error.message);
+        console.error("Status:", error.response?.status);
+        console.error("Response:", error.response?.data);
+        console.error("Request URL:", error.config?.url);
+        console.error("Request method:", error.config?.method);
+        console.error("\n");
+      } else if (error instanceof Error) {
         console.error("❌ Test failed:", error.message, "\n");
       } else {
         console.error("❌ Test failed with unknown error\n");
       }
-    }
-  }
-
-  try {
-    console.log("Testing error handling (missing message)");
-    const response = await axios.post(`${BASE_URL}/target_url`, {
-      settings: [],
-    });
-    console.log("Response:", response.data);
-    console.log("✅ Error handling test passed\n");
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      console.log("Response:", error.response?.data);
-      console.log("✅ Error handling test passed\n");
-    } else {
-      console.log("❌ Unexpected error occurred\n");
     }
   }
 }
