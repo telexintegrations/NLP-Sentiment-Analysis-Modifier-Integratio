@@ -1,3 +1,4 @@
+// analyzeSentiment.ts
 import { OpenAI } from "openai";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -9,12 +10,12 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 export async function analyzeSentiment(text: string): Promise<number> {
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-4-turbo",
+      model: "gpt-4", // Using GPT-4 for better sentiment analysis
       messages: [
         {
           role: "system",
           content:
-            "You are a sentiment analysis assistant. Respond with a single number between -1 (negative) to 1 (positive).",
+            "You are a sentiment analysis assistant. Respond with a single number between -1 (very negative) to 1 (very positive).",
         },
         {
           role: "user",
@@ -22,6 +23,7 @@ export async function analyzeSentiment(text: string): Promise<number> {
         },
       ],
       max_tokens: 10,
+      temperature: 0.3, // Lower temperature for more consistent results
     });
 
     const sentimentText = response.choices[0]?.message.content?.trim() ?? "0";
