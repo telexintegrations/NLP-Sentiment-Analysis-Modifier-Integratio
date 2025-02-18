@@ -24,9 +24,8 @@ export async function analyzeSentiment(text: string): Promise<number> {
       max_tokens: 10,
     });
 
-    const sentimentScore = parseFloat(
-      response.choices[0].message.content.trim()
-    );
+    const sentimentText = response.choices[0]?.message.content?.trim() ?? "0";
+    const sentimentScore = parseFloat(sentimentText);
     return isNaN(sentimentScore) ? 0 : sentimentScore;
   } catch (error) {
     console.error("OpenAI API Error:", error);
