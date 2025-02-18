@@ -1,0 +1,20 @@
+{
+  "name": "nlp-sentiment-analysis-modifier-integratio",
+  "version": "1.0.0",
+  "description": "The Sentiment Analysis Modifier Integration analyzes the sentiment of incoming messages in a Telex channel using NLP APIs. It detects whether messages are positive, negative, or neutral and flags or modifies toxic content before it appears in the channel",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/language": "^6.5.0",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "typescript": "^5.7.3"
+  }
+}
