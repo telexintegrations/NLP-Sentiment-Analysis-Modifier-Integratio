@@ -1,8 +1,7 @@
-// index.ts
-import express, { Request, Response, Router } from "express";
+import express, { Router } from "express";
 import dotenv from "dotenv";
 import { analyzeSentiment } from "./analyzeSentiment";
-import { TelexModifierRequest, TelexModifierResponse } from "./types";
+import { TelexRequest, TelexResponse } from "./types"; //
 
 dotenv.config();
 
@@ -12,16 +11,9 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
-/**
- * Telex Modifier Integration endpoint for sentiment analysis
- * Follows Telex's modifier integration specifications
- */
 router.post(
   "/target_url",
-  async (
-    req: Request<{}, TelexModifierResponse, TelexModifierRequest>,
-    res: Response
-  ) => {
+  async (req: TelexRequest, res: TelexResponse): Promise<any> => {
     const startTime = Date.now();
 
     try {
@@ -33,21 +25,19 @@ router.post(
           .json({ message: "Invalid request: message is required" });
       }
 
-      // Get toxicity threshold from settings
+      // Ensure settings is an array before searching
       const toxicityThreshold =
-        settings?.find((s) => s.label === "Toxicity Threshold")?.default ??
-        -0.5;
+        (Array.isArray(settings)
+          ? settings.find((s) => s.label === "Toxicity Threshold")?.default
+          : undefined) ?? -0.5;
 
-      // Analyze sentiment (must complete within 1 second)
       const sentimentScore = await analyzeSentiment(message);
 
-      // Check if we're approaching the 1-second timeout
       if (Date.now() - startTime > 900) {
         console.warn("Approaching timeout, returning original message");
         return res.json({ message });
       }
 
-      // Modify message if sentiment is below threshold
       const modifiedMessage =
         sentimentScore < Number(toxicityThreshold)
           ? `⚠️ Potentially harmful message detected (sentiment: ${sentimentScore.toFixed(
@@ -55,12 +45,10 @@ router.post(
             )}): ${message}`
           : message;
 
-      // Return in Telex's required format
       return res.json({ message: modifiedMessage });
     } catch (error) {
       console.error("Error processing message:", error);
-      // On error, return original message to not block the chain
-      return res.json({ message: req.body.message });
+      return res.status(500).json({ message: req.body.message });
     }
   }
 );

@@ -1,3 +1,5 @@
+import { Request, Response } from "express";
+
 export interface TelexModifierRequest {
   message: string;
   settings: {
@@ -11,3 +13,10 @@ export interface TelexModifierRequest {
 export interface TelexModifierResponse {
   message: string;
 }
+
+export type TelexRequest = Request<
+  {},
+  TelexModifierResponse,
+  TelexModifierRequest
+>;
+export type TelexResponse = Response<TelexModifierResponse>;
