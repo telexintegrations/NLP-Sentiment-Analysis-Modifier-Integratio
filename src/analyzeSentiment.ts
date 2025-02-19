@@ -1,3 +1,4 @@
+// analyzeSentiment.ts
 import { OpenAI } from "openai";
 import dotenv from "dotenv";
 
@@ -12,7 +13,7 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 export async function analyzeSentiment(text: string): Promise<number> {
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-4", // Using GPT-4 for better sentiment analysis
+      model: "gpt-3.5-turbo",
       messages: [
         {
           role: "system",
@@ -30,9 +31,24 @@ export async function analyzeSentiment(text: string): Promise<number> {
 
     const sentimentText = response.choices[0]?.message.content?.trim() ?? "0";
     const sentimentScore = parseFloat(sentimentText);
-    return isNaN(sentimentScore) ? 0 : sentimentScore;
+
+    // Validate the sentiment score
+    if (isNaN(sentimentScore) || sentimentScore < -1 || sentimentScore > 1) {
+      console.warn("Invalid sentiment score received:", sentimentText);
+      return 0; // Return neutral sentiment for invalid scores
+    }
+
+    return sentimentScore;
   } catch (error) {
     console.error("OpenAI API Error:", error);
-    return 0; // Default to neutral sentiment
+    // Log more details about the error for debugging
+    if (error instanceof Error) {
+      console.error("Error details:", {
+        message: error.message,
+        name: error.name,
+        stack: error.stack,
+      });
+    }
+    return 0; // Default to neutral sentiment on error
   }
 }
