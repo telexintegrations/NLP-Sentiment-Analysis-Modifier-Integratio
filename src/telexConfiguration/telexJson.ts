@@ -14,7 +14,7 @@ export interface TelexConfigData {
   integration_category: string;
   integration_type: string;
   is_active: boolean;
-  // Add output field
+
   output: Array<{
     label: string;
     value: boolean;
