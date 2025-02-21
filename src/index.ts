@@ -22,7 +22,7 @@ app.use(express.json());
 const PORT = process.env.PORT || 3000;
 
 // Config endpoint with modified response type
-app.get("/integration-json", (_req, res) => {
+app.get("/integration.json", (_req, res) => {
   try {
     // Send the config directly without wrapping it in a response type
     res.json(telexConfig);
