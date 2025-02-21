@@ -8,7 +8,7 @@
       "app_name": "Message Sentiment Analyzer",
       "app_description": "Analyzes message sentiment using advanced NLP and flags potentially harmful content.",
       "app_logo": "https://i.ibb.co/4ZpTNTv3/Telex-Sentiment-Analyzer.png",
-      "app_url": "https://your-domain.com/sentiment-analyzer",
+      "app_url": "https://telex-sentiment-analysis-modifier.onrender.com",
       "background_color": "#4A90E2"
     },
     "integration_category": "Communication & Collaboration",
