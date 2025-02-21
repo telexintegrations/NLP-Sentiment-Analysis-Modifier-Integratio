@@ -2,12 +2,14 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import { analyzeSentiment } from "./analyzeSentiment";
+import { telexConfig } from "./telexConfiguration/telexJson";
 import {
   TelexRequest,
   TelexResponse,
   TelexErrorCode,
   TelexModifierResponse,
   TelexErrorResponse,
+  TelexHealthResponse,
 } from "./types";
 
 dotenv.config();
@@ -18,6 +20,23 @@ app.use(cors());
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
+
+// Config endpoint with modified response type
+app.get("/integration-json", (_req, res) => {
+  try {
+    // Send the config directly without wrapping it in a response type
+    res.json(telexConfig);
+  } catch (error) {
+    const errorResponse: TelexErrorResponse = {
+      error: "Failed to retrieve configuration",
+      code: TelexErrorCode.API_ERROR,
+      details:
+        error instanceof Error ? error.message : "Unknown error occurred",
+      timestamp: new Date().toISOString(),
+    };
+    res.status(500).json(errorResponse);
+  }
+});
 
 app.post(
   "/format-message",
@@ -117,13 +136,14 @@ app.post(
 
 // Health check endpoint
 app.get("/health", (_req, res: TelexResponse) => {
-  res.json({
+  const healthResponse: TelexHealthResponse = {
     status: "ok",
     version: "1.0.0",
     uptime: process.uptime(),
     memory: process.memoryUsage(),
     timestamp: new Date().toISOString(),
-  });
+  };
+  res.json(healthResponse);
 });
 
 app.listen(PORT, () => {
