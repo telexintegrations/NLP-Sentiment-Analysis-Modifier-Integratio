@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { DEFAULT_SETTINGS } from "./config";
 
 export interface TelexConfig {
   data: {
