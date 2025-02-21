@@ -38,6 +38,6 @@
         "description": "Adjust overall sensitivity of sentiment detection"
       }
     ],
-    "target_url": "https://your-domain.com/api/format-message"
+    "target_url": "https://telex-sentiment-analysis-modifier.onrender.com/format-message"
   }
 }
