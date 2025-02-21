@@ -14,12 +14,26 @@ export interface TelexConfigData {
   integration_category: string;
   integration_type: string;
   is_active: boolean;
+  // Add output field
+  output: Array<{
+    label: string;
+    value: boolean;
+  }>;
+
+  key_features: string[];
+
+  permissions: {
+    [key: string]: {
+      always_online: boolean;
+      display_name: string;
+    };
+  };
   settings: Array<{
     label: string;
     type: string;
     required: boolean;
     default: string;
-    description: string;
+    description?: string;
     options?: string[];
   }>;
   target_url: string;
@@ -46,6 +60,31 @@ export const telexConfig: TelexConfig = {
     integration_category: "Communication & Collaboration",
     integration_type: "modifier",
     is_active: true,
+
+    output: [
+      {
+        label: "sentiment_analysis",
+        value: true,
+      },
+      {
+        label: "toxicity_detection",
+        value: true,
+      },
+    ],
+
+    key_features: [
+      "Real-time sentiment analysis of messages",
+      "Toxicity detection and warning system",
+      "Customizable sensitivity thresholds",
+      "Multi-channel support",
+    ],
+
+    permissions: {
+      monitoring_user: {
+        always_online: true,
+        display_name: "Sentiment Monitor",
+      },
+    },
     settings: [
       {
         label: "Toxicity Threshold",
