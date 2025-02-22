@@ -110,6 +110,6 @@ export const telexConfig: TelexConfig = {
       },
     ],
     target_url:
-      "https://ping.telex.im/v1/webhooks/01951d72-fb32-74b0-9c9f-ed1347b1513b",
+      "https://telex-sentiment-analysis-modifier.onrender.com/format-message",
   },
 };
