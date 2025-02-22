@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-comprehend": "^3.750.0",
     "@google-cloud/language": "^6.5.0",
     "@huggingface/inference": "^3.3.5",
     "cors": "^2.8.5",

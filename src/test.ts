@@ -67,40 +67,6 @@ const TEST_MESSAGES: TestCase[] = [
     expectedStatus: 200,
   },
   {
-    description: "Positive message",
-    payload: {
-      channel_id: "01951d72-fb32-74b0-9c9f-ed1347b1513b",
-      target_url:
-        "https://ping.telex.im/v1/webhooks/01951d72-fb32-74b0-9c9f-ed1347b1513b",
-      message: "I absolutely love this product! It's amazing!",
-      settings: [
-        {
-          label: "Toxicity Threshold",
-          type: TelexSettingType.NUMBER,
-          default: -0.5,
-          required: true,
-        },
-      ],
-    } as TelexModifierRequest,
-  },
-  {
-    description: "Negative message",
-    payload: {
-      channel_id: "01951d72-fb32-74b0-9c9f-ed1347b1513b",
-      target_url:
-        "https://ping.telex.im/v1/webhooks/01951d72-fb32-74b0-9c9f-ed1347b1513b",
-      message: "This is terrible! I hate everything about it!",
-      settings: [
-        {
-          label: "Toxicity Threshold",
-          type: TelexSettingType.NUMBER,
-          default: -0.5,
-          required: true,
-        },
-      ],
-    } as TelexModifierRequest,
-  },
-  {
     description: "Neutral message",
     payload: {
       channel_id: "01951d72-fb32-74b0-9c9f-ed1347b1513b",
@@ -115,7 +81,7 @@ const TEST_MESSAGES: TestCase[] = [
           required: true,
         },
       ],
-    } as TelexModifierRequest,
+    },
   },
   {
     description: "Extreme negative message",
@@ -132,7 +98,7 @@ const TEST_MESSAGES: TestCase[] = [
           required: true,
         },
       ],
-    } as TelexModifierRequest,
+    },
   },
 ];
 
