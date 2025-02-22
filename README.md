@@ -165,8 +165,9 @@ For support, please:
 2. Open an issue
 3. Contact the development team
 
-## Authors
-- Your Name - *Initial work*
+## Author
+- GLENN TANZE - *Initial work*
+- BP - *Mental Support and Encouragement*
 
 ## Acknowledgments
 - Telex team for the integration framework
