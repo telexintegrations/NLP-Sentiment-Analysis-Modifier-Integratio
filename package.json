@@ -12,7 +12,7 @@
     "clean": "rm -rf dist"
   },
   "keywords": [],
-  "author": "",
+  "author": "Glenn Tanze",
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-comprehend": "^3.750.0",
