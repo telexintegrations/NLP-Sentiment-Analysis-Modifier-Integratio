@@ -1,5 +1,8 @@
 # Message Sentiment Analysis Modifier Integration
 
+![Telex-Sentiment-Analyzer](https://github.com/user-attachments/assets/992e8737-5086-4bed-bff7-c9aecf4c3758)
+
+
 ## Overview
 A powerful message sentiment analysis integration for Telex that uses advanced Natural Language Processing (NLP) to analyze message sentiment and flag potentially harmful content in real-time. Built with TypeScript and Express.js, this integration provides robust sentiment analysis capabilities with configurable sensitivity levels and customizable warning thresholds.
 
