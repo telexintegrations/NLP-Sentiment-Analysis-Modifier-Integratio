@@ -245,7 +245,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 - [Amazon Comprehend](https://aws.amazon.com/comprehend/) for sentiment analysis.
 - [Telex](https://telex.im/) for the integration framework.
-- My Sweet BP - Moral Support
+- My Sweet BP ❤️ - Moral Support
 
 ---
 ## Author
