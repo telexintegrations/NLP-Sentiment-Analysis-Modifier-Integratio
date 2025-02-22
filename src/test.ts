@@ -19,7 +19,8 @@ const TEST_MESSAGES: TestCase[] = [
   {
     description: "Positive message",
     payload: {
-      channel_id: "01951d72-fb32-74b0-9c9f-ed1347b1513b",
+      channel_id:
+        "https://ping.telex.im/v1/webhooks/01951d72-fb32-74b0-9c9f-ed1347b1513b",
       target_url:
         "https://ping.telex.im/v1/webhooks/01951d72-fb32-74b0-9c9f-ed1347b1513b",
       message: "I absolutely love this product! It's amazing!",
@@ -44,7 +45,8 @@ const TEST_MESSAGES: TestCase[] = [
   {
     description: "Negative message",
     payload: {
-      channel_id: "01951d72-fb32-74b0-9c9f-ed1347b1513b",
+      channel_id:
+        "https://ping.telex.im/v1/webhooks/01951d72-fb32-74b0-9c9f-ed1347b1513b",
       target_url:
         "https://ping.telex.im/v1/webhooks/01951d72-fb32-74b0-9c9f-ed1347b1513b",
       message: "This is terrible! I hate everything about it!",
@@ -69,7 +71,8 @@ const TEST_MESSAGES: TestCase[] = [
   {
     description: "Neutral message",
     payload: {
-      channel_id: "01951d72-fb32-74b0-9c9f-ed1347b1513b",
+      channel_id:
+        "https://ping.telex.im/v1/webhooks/01951d72-fb32-74b0-9c9f-ed1347b1513b",
       target_url:
         "https://ping.telex.im/v1/webhooks/01951d72-fb32-74b0-9c9f-ed1347b1513b",
       message: "The weather is cloudy today.",
