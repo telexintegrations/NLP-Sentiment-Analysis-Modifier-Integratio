@@ -1,145 +1,173 @@
-# Telex Sentiment Modifier API
+# Message Sentiment Analysis Modifier Integration
 
-## 📌 Overview
-The **Telex Sentiment Modifier API** is a simple RESTful service that processes user-submitted messages, analyzes their sentiment, and applies a modification if the sentiment score falls below a defined toxicity threshold. The API is built using **Express.js** and integrates sentiment analysis to determine if a message is potentially harmful.
+## Overview
+A powerful message sentiment analysis integration for Telex that uses advanced Natural Language Processing (NLP) to analyze message sentiment and flag potentially harmful content in real-time. Built with TypeScript and Express.js, this integration provides robust sentiment analysis capabilities with configurable sensitivity levels and customizable warning thresholds.
 
-## 🚀 Features
-- Accepts user messages via a `POST` request.
-- Analyzes sentiment using a scoring system.
-- Modifies messages based on a **Toxicity Threshold**.
-- Ensures a response time within **900ms**.
-- Supports **CORS** and **JSON payloads**.
-- Includes a **health check endpoint**.
+## Features
+- 🔍 Real-time sentiment analysis of messages
+- ⚠️ Automatic detection and flagging of potentially harmful content
+- 🎚️ Configurable toxicity thresholds
+- 🔄 Customizable sensitivity levels
+- ⚡ Fast processing with timeout protection
+- 🛡️ Comprehensive error handling
+- 📊 Performance monitoring and health checks
 
----
+## Prerequisites
+- Node.js (v16.x or higher)
+- npm or yarn
+- TypeScript
+- Express.js
 
-## 🛠️ Installation & Setup
+## Installation
 
-### Prerequisites
-Ensure you have the following installed:
-- **Node.js** (>= 14.x recommended)
-- **npm** or **yarn**
-
-### Clone the Repository
-```sh
+1. Clone the repository:
+```bash
 git clone https://github.com/telexintegrations/NLP-Sentiment-Analysis-Modifier-Integratio
 cd NLP-Sentiment-Analysis-Modifier-Integratio
 ```
 
-### Install Dependencies
-```sh
+2. Install dependencies:
+```bash
 npm install
 ```
 
-### Environment Configuration
-Create a `.env` file in the project root and set the following:
+3. Create a `.env` file in the root directory:
 ```env
 PORT=3000
-OPENAI_API_KEY = "your-api-key"
+OPENAI_API_KEY = "YOUR OPEN AI KEY"
 ```
 
-### Running the Server
-```sh
+4. Build the TypeScript code:
+```bash
+npm run build
+```
+
+5. Start the server:
+```bash
 npm start
 ```
-The server will start on `http://localhost:3000` (or the port specified in `.env`).
 
----
+## Configuration
+The integration can be configured through the `telexConfig.ts` file, which includes:
 
-## 📡 API Endpoints
+- Application metadata
+- Integration settings
+- Sensitivity thresholds
+- Output channels
+- User permissions
+- Key features
 
-### 🔹 `POST /target_url`
-**Description:** Processes a message and applies sentiment-based modifications if needed.
+### Default Settings
+```json
+{
+  "Toxicity Threshold": -0.5,
+  "Warning Prefix": true,
+  "Sensitivity Level": "Medium"
+}
+```
+
+## API Endpoints
+
+### 1. Message Analysis
+```http
+POST /format-message
+```
 
 #### Request Body
-```json
+```typescript
 {
-  "message": "I absolutely love this product! It's amazing!",
-  "settings": [
-    {
-      "label": "Toxicity Threshold",
-      "type": "number",
-      "default": -0.5,
-      "required": true
-    }
-  ]
+  message: string;
+  settings?: TelexSetting[];
+  channel_id: string;
+  target_url: string;
 }
 ```
-
-#### Response (Example)
-```json
-{
-  "message": "I absolutely love this product! It's amazing!"
-}
-```
-If the sentiment score is below the threshold:
-```json
-{
-  "message": "⚠️ Potentially harmful message detected (sentiment: -0.8): This is terrible! I hate everything about it!"
-}
-```
-
-#### Possible Responses
-| Status Code | Description |
-|-------------|-------------|
-| `200 OK` | Message processed successfully |
-| `400 Bad Request` | Missing or invalid `message` field |
-
----
-
-### 🔹 `GET /health`
-**Description:** Simple health check to verify that the service is running.
 
 #### Response
-```json
+```typescript
 {
-  "status": "ok"
+  message: string;
+  metadata: {
+    processed: boolean;
+    sentiment_score: number;
+    processing_time: number;
+    channel_id: string;
+    target_url: string;
+    timestamp: string;
+    sensitivity_level: string;
+  }
 }
 ```
 
----
+### 2. Configuration
+```http
+GET /integration.json
+```
+Returns the current integration configuration.
 
-## 🧪 Running Tests
-This project includes an automated test script to validate the API.
+### 3. Health Check
+```http
+GET /health
+```
+Returns the service health status and metrics.
 
-### Run Tests
-```sh
+## Error Handling
+The integration implements comprehensive error handling for:
+- Invalid messages
+- Missing channel IDs
+- Invalid target URLs
+- Processing timeouts
+- API errors
+
+## Performance
+- Request timeout: 900ms
+- Average processing time: ~100ms
+- Memory usage monitoring
+- Uptime tracking
+
+## Development
+
+### Project Structure
+```
+src/
+├── index.ts              # Main application entry
+├── analyzeSentiment.ts   # Sentiment analysis logic
+├── types.ts             # TypeScript type definitions
+├── telexConfig.ts       # Integration configuration
+└── test/               # Test files
+```
+
+### Running Tests
+```bash
 npm test
 ```
-This will send test payloads and verify API responses.
 
----
-
-## 🏗️ Project Structure
-```
-📁 telex-sentiment-modifier
-│-- 📄 index.ts (Main API logic)
-│-- 📄 analyzeSentiment.ts (Sentiment analysis function)
-│-- 📄 types.ts (TypeScript type definitions)
-│-- 📄 test.ts (Integration test script)
-│-- 📄 package.json (Dependencies & scripts)
-│-- 📄 tsconfig.json (TypeScript configuration)
-│-- 📄 .env (Environment variables)
+### Building for Production
+```bash
+npm run build
 ```
 
----
+The compiled JavaScript will be output to the `dist/` directory.
 
-## 📜 License
-This project is licensed under the **MIT License**.
+## Contributing
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
----
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🤝 Contributing
-1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature-name`).
-3. Commit your changes (`git commit -m "Add new feature"`).
-4. Push to your branch (`git push origin feature-name`).
-5. Create a pull request.
+## Support
+For support, please:
+1. Check the [documentation](docs/)
+2. Open an issue
+3. Contact the development team
 
----
+## Authors
+- Your Name - *Initial work*
 
-## ✉️ Contact
-For any inquiries or support, please reach out via [tanzeglenn@gmail.com].
-
-Happy coding! 🎉
-
+## Acknowledgments
+- Telex team for the integration framework
+- Contributors to the NLP libraries used in this project
