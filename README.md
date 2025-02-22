@@ -76,10 +76,17 @@ POST /format-message
 #### Request Body
 ```typescript
 {
-  message: string;
-  settings?: TelexSetting[];
-  channel_id: string;
-  target_url: string;
+  "channel_id": "",
+  "target_url": "",
+  "message": "",
+  "settings": [
+    {
+      "label": "",
+      "type": "",
+      "default": ,
+      "required": 
+    }
+  ]
 }
 ```
 
