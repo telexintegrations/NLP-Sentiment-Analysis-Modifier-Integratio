@@ -75,8 +75,8 @@ Before running the project, ensure you have the following installed:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/telex-sentiment-modifier.git
-   cd telex-sentiment-modifier
+   git clone https://github.com/telexintegrations/NLP-Sentiment-Analysis-Modifier-Integratio.git
+   cd NLP-Sentiment-Analysis-Modifier-Integratio
    ```
 
 2. Install dependencies:
