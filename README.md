@@ -37,7 +37,9 @@ npm install
 3. Create a `.env` file in the root directory:
 ```env
 PORT=3000
-OPENAI_API_KEY = "YOUR OPEN AI KEY"
+AWS_REGION=us-east-1
+AWS_ACCESS_KEY_ID=your_access_key_id
+AWS_SECRET_ACCESS_KEY=your_secret_access_key
 ```
 
 4. Build the TypeScript code:
