@@ -4,6 +4,7 @@ import cors from "cors";
 import { ComprehendClient } from "@aws-sdk/client-comprehend";
 import { analyzeSentiment, getDetailedSentiment } from "./analyzeSentiment";
 import { telexConfig } from "./telexConfiguration/telexJson";
+import axios from "axios";
 import {
   TelexRequest,
   TelexResponse,
@@ -26,6 +27,51 @@ const PORT = process.env.PORT || 3000;
 const comprehendClient = new ComprehendClient({
   region: process.env.AWS_REGION || "us-east-1",
 });
+
+// New function to send message back to Telex channel
+async function sendMessageToTelex(
+  targetUrl: string,
+  channelId: string,
+  message: string
+) {
+  try {
+    const response = await axios.post(
+      targetUrl,
+      {
+        channel_id: channelId,
+        message: message,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    // Accept both 200 and 202 as valid response codes
+    if (response.status !== 200 && response.status !== 202) {
+      throw new Error(
+        `Failed to send message to Telex. Status: ${response.status}`
+      );
+    }
+
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      console.error("Error response from Telex:", {
+        status: error.response.status,
+        data: error.response.data,
+      });
+      throw new Error(
+        `Telex API error: ${error.response.status} - ${JSON.stringify(
+          error.response.data
+        )}`
+      );
+    }
+    console.error("Error sending message to Telex:", error);
+    throw error;
+  }
+}
 
 app.post(
   "/format-message",
@@ -98,6 +144,9 @@ app.post(
               2
             )}): ${message}`
           : message;
+
+      // Send the modified message back to Telex
+      await sendMessageToTelex(target_url, channel_id, modifiedMessage);
 
       const response: TelexModifierResponse = {
         message: modifiedMessage,
