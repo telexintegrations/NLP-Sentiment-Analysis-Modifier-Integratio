@@ -118,14 +118,13 @@ POST /format-message
 Content-Type: application/json
 
 {
-  "channel_id": "support-team",
-  "message": "This product is terrible!",
-  "target_url": "https://telex.example.com/webhooks/support-team",
+    "message": "This is Product is Terrible",
   "settings": [
     {
       "label": "Toxicity Threshold",
       "type": "number",
-      "default": -0.5
+      "default": -0.5,
+      "required": true
     }
   ]
 }
@@ -134,25 +133,23 @@ Content-Type: application/json
 **Response**:
 ```json
 {
-  "message": "⚠️ Potentially harmful message detected (sentiment: -0.75): This product is terrible!",
-  "metadata": {
-    "processed": true,
-    "sentiment_score": -0.75,
-    "processing_time": 500,
-    "channel_id": "support-team",
-    "target_url": "https://telex.example.com/webhooks/support-team",
-    "timestamp": "2023-10-15T12:00:00.000Z",
-    "sensitivity_level": "-0.75",
-    "detailed_sentiment": {
-      "sentiment": "NEGATIVE",
-      "scores": {
-        "positive": 0.1,
-        "negative": 0.8,
-        "neutral": 0.1,
-        "mixed": 0.0
-      }
+    "message": "⚠️ Potentially harmful message detected (sentiment: -1.00): This is Product is Terrible",
+    "metadata": {
+        "processed": true,
+        "sentiment_score": -0.9997839331626892,
+        "processing_time": 327,
+        "timestamp": "2025-02-25T16:48:43.611Z",
+        "sensitivity_level": "-0.9997839331626892",
+        "detailed_sentiment": {
+            "sentiment": "NEGATIVE",
+            "scores": {
+                "positive": 0.000040529743273509666,
+                "negative": 0.9997839331626892,
+                "neutral": 0.00015682748926337808,
+                "mixed": 0.000018765131244435906
+            }
+        }
     }
-  }
 }
 ```
 
