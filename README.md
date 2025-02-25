@@ -1,4 +1,4 @@
-# Telex Sentiment Modifier Integration
+# Telex Message Sentiment Analyzer Modifier Integration
 
 ![Telex-Sentiment-Analyzer](https://github.com/user-attachments/assets/48e45fe7-0419-4aa0-87fd-1db2fb061dcc)
 
