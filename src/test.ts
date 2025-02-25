@@ -7,7 +7,7 @@ import {
 } from "./types";
 
 const BASE_URL = "http://localhost:3000";
-const TEST_TIMEOUT = 1000; // 5 seconds timeout
+const TEST_TIMEOUT = 1000; // 1 second timeout
 
 interface TestCase {
   description: string;
@@ -19,10 +19,6 @@ const TEST_MESSAGES: TestCase[] = [
   {
     description: "Positive message",
     payload: {
-      channel_id:
-        "https://ping.telex.im/v1/webhooks/01951d72-fb32-74b0-9c9f-ed1347b1513b",
-      target_url:
-        "https://ping.telex.im/v1/webhooks/01951d72-fb32-74b0-9c9f-ed1347b1513b",
       message: "I absolutely love this product! It's amazing!",
       settings: [
         {
@@ -45,10 +41,6 @@ const TEST_MESSAGES: TestCase[] = [
   {
     description: "Negative message",
     payload: {
-      channel_id:
-        "https://ping.telex.im/v1/webhooks/01951d72-fb32-74b0-9c9f-ed1347b1513b",
-      target_url:
-        "https://ping.telex.im/v1/webhooks/01951d72-fb32-74b0-9c9f-ed1347b1513b",
       message: "This is terrible! I hate everything about it!",
       settings: [
         {
@@ -71,10 +63,6 @@ const TEST_MESSAGES: TestCase[] = [
   {
     description: "Neutral message",
     payload: {
-      channel_id:
-        "https://ping.telex.im/v1/webhooks/01951d72-fb32-74b0-9c9f-ed1347b1513b",
-      target_url:
-        "https://ping.telex.im/v1/webhooks/01951d72-fb32-74b0-9c9f-ed1347b1513b",
       message: "The weather is cloudy today.",
       settings: [
         {
@@ -89,9 +77,6 @@ const TEST_MESSAGES: TestCase[] = [
   {
     description: "Extreme negative message",
     payload: {
-      channel_id: "01951d72-fb32-74b0-9c9f-ed1347b1513b",
-      target_url:
-        "https://ping.telex.im/v1/webhooks/01951d72-fb32-74b0-9c9f-ed1347b1513b",
       message: "This is absolutely horrible! Worst experience of my life!",
       settings: [
         {
@@ -105,26 +90,12 @@ const TEST_MESSAGES: TestCase[] = [
   },
 ];
 
-// Add error test cases
+// Update error test cases
 const ERROR_TEST_CASES: TestCase[] = [
   {
     description: "Missing message",
     payload: {
-      channel_id: "01951d72-fb32-74b0-9c9f-ed1347b1513b",
-      target_url:
-        "https://ping.telex.im/v1/webhooks/01951d72-fb32-74b0-9c9f-ed1347b1513b",
       message: "",
-      settings: [],
-    },
-    expectedStatus: 400,
-  },
-  {
-    description: "Missing channel_id",
-    payload: {
-      channel_id: "",
-      target_url:
-        "https://ping.telex.im/v1/webhooks/01951d72-fb32-74b0-9c9f-ed1347b1513b",
-      message: "Test message",
       settings: [],
     },
     expectedStatus: 400,

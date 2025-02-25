@@ -9,17 +9,15 @@ export enum TelexSettingType {
 
 export interface TelexSetting {
   label: string;
-  type: TelexSettingType; // Use the enum here
+  type: TelexSettingType;
   required: boolean;
-  default: string | number | boolean; // Allow multiple types for default
+  default: string | number | boolean;
   description?: string;
-  options?: string[]; // Optional for dropdown settings
+  options?: string[];
 }
 
 // Define the TelexModifierRequest interface
 export interface TelexModifierRequest {
-  channel_id: string;
-  target_url: string;
   message: string;
   settings?: TelexSetting[];
   metadata?: {
@@ -40,8 +38,6 @@ export interface TelexMetadata {
   processed: boolean;
   sentiment_score: number;
   processing_time: number;
-  channel_id: string;
-  target_url: string;
   timestamp: string;
   sensitivity_level: string;
   detailed_sentiment?: ComprehendSentimentResponse;
@@ -63,8 +59,6 @@ export interface TelexHealthResponse {
 
 export enum TelexErrorCode {
   INVALID_MESSAGE = "INVALID_MESSAGE",
-  INVALID_CHANNEL = "INVALID_CHANNEL",
-  INVALID_TARGET_URL = "INVALID_TARGET_URL",
   TIMEOUT_ERROR = "TIMEOUT_ERROR",
   API_ERROR = "API_ERROR",
   AWS_ERROR = "AWS_ERROR",

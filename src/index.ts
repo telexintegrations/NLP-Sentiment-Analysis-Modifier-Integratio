@@ -4,7 +4,6 @@ import cors from "cors";
 import { ComprehendClient } from "@aws-sdk/client-comprehend";
 import { analyzeSentiment, getDetailedSentiment } from "./analyzeSentiment";
 import { telexConfig } from "./telexConfiguration/telexJson";
-import axios from "axios";
 import {
   TelexRequest,
   TelexResponse,
@@ -28,87 +27,20 @@ const comprehendClient = new ComprehendClient({
   region: process.env.AWS_REGION || "us-east-1",
 });
 
-// New function to send message back to Telex channel
-async function sendMessageToTelex(
-  targetUrl: string,
-  channelId: string,
-  message: string
-) {
-  try {
-    const response = await axios.post(
-      targetUrl,
-      {
-        channel_id: channelId,
-        message: message,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    // Accept both 200 and 202 as valid response codes
-    if (response.status !== 200 && response.status !== 202) {
-      throw new Error(
-        `Failed to send message to Telex. Status: ${response.status}`
-      );
-    }
-
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      console.error("Error response from Telex:", {
-        status: error.response.status,
-        data: error.response.data,
-      });
-      throw new Error(
-        `Telex API error: ${error.response.status} - ${JSON.stringify(
-          error.response.data
-        )}`
-      );
-    }
-    console.error("Error sending message to Telex:", error);
-    throw error;
-  }
-}
-
 app.post(
   "/format-message",
   async (req: TelexRequest, res: TelexResponse): Promise<void> => {
     const startTime = Date.now();
 
     try {
-      const { message, settings, channel_id, target_url } = req.body;
+      const { message, settings } = req.body;
 
-      // Validate required fields
+      // Validate message is provided
       if (!message) {
         const errorResponse: TelexErrorResponse = {
           error: "Invalid request: message is required",
           code: TelexErrorCode.INVALID_MESSAGE,
           details: "Message field cannot be empty",
-          timestamp: new Date().toISOString(),
-        };
-        res.status(400).json(errorResponse);
-        return;
-      }
-
-      if (!channel_id) {
-        const errorResponse: TelexErrorResponse = {
-          error: "Invalid request: channel_id is required",
-          code: TelexErrorCode.INVALID_CHANNEL,
-          details: "Channel ID field cannot be empty",
-          timestamp: new Date().toISOString(),
-        };
-        res.status(400).json(errorResponse);
-        return;
-      }
-
-      if (!target_url) {
-        const errorResponse: TelexErrorResponse = {
-          error: "Invalid request: target_url is required",
-          code: TelexErrorCode.INVALID_TARGET_URL,
-          details: "Target URL field cannot be empty",
           timestamp: new Date().toISOString(),
         };
         res.status(400).json(errorResponse);
@@ -145,17 +77,12 @@ app.post(
             )}): ${message}`
           : message;
 
-      // Send the modified message back to Telex
-      await sendMessageToTelex(target_url, channel_id, modifiedMessage);
-
       const response: TelexModifierResponse = {
         message: modifiedMessage,
         metadata: {
           processed: true,
           sentiment_score: sentimentScore,
           processing_time: Date.now() - startTime,
-          channel_id,
-          target_url,
           timestamp: new Date().toISOString(),
           sensitivity_level: sentimentScore.toString(),
           detailed_sentiment: detailedSentiment,
@@ -178,6 +105,10 @@ app.post(
     }
   }
 );
+
+app.get("/", (req, res) => {
+  res.send("Telex Sentiment Analyzer API is running!");
+});
 
 // Config endpoint
 app.get("/integration.json", (_req, res) => {
